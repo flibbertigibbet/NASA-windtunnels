@@ -12,6 +12,9 @@ https://www.google.com/fusiontables/DataSource?docid=1A-XBHpAayWm72ewcBWN0KZyuLz
 budget by location
 https://www.google.com/fusiontables/DataSource?docid=1rl35eu2FndFYWAhcLZiOB0ZAMbIMSy_bWjBaIpE
 
+budget by location, partially normal
+https://www.google.com/fusiontables/DataSource?docid=1Ed2y898rO5VwDN0j_k2fTkO97w3A8d8YAoBX8EU
+
 budget by speed
 https://www.google.com/fusiontables/DataSource?docid=1nE8JH46KFYlgNNxJYUOoglR6r2Y0ThotRBIRfug
 

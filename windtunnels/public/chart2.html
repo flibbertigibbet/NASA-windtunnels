@@ -1,0 +1,30 @@
+<html>
+  <head>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+
+      function drawVisualization() {
+      var queryText = encodeURIComponent("SELECT Year, 'NASA', 'DoD', 'Commercial' FROM 1Ed2y898rO5VwDN0j_k2fTkO97w3A8d8YAoBX8EU WHERE 'Location'='ARC Unitary'");
+
+      google.visualization.drawChart({
+        "containerId": "visualization_div",
+        "dataSourceUrl": 'http://www.google.com/fusiontables/gvizdata?tq=',
+        "query":"SELECT Year, 'NASA', 'DoD', 'Commercial' FROM 1Ed2y898rO5VwDN0j_k2fTkO97w3A8d8YAoBX8EU WHERE 'Location'='ARC Unitary'",
+        "refreshInterval": 60,
+        "chartType": "LineChart",
+        "options": {
+          "title":"Yearly Subsonic Wind Tunnel Costs by User",
+          "hAxis": {"title": "Year"},
+          "vAxis": {"title": "Hours"}
+        }
+      });
+    }
+
+    google.setOnLoadCallback(drawVisualization);
+  </script>
+</head>
+<body style="font-family: Arial;border: 0 none;">
+  <div id="visualization_div" style="width: 1000px; height: 500px;"></div>
+</body>
+</html>
