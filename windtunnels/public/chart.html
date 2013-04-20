@@ -5,18 +5,18 @@
       google.load("visualization", "1", {packages:["corechart"]});
 
       function drawVisualization() {
-      var queryText = encodeURIComponent("SELECT Hours, Year FROM 1T8zOrOm79lND_Ebc-dKHa1-94DWu95BLw71CRCo");
+      var queryText = encodeURIComponent("SELECT Year, 'NASA', 'DoD', 'Commercial' FROM 1pkq1u6yBAbJ2Tt_qKrhUb9rHMIIcs506noF2sEg WHERE 'Speed'='Subsonic'");
 
       google.visualization.drawChart({
         "containerId": "visualization_div",
         "dataSourceUrl": 'http://www.google.com/fusiontables/gvizdata?tq=',
-        "query":"SELECT Hours, Year FROM 1T8zOrOm79lND_Ebc-dKHa1-94DWu95BLw71CRCo",
+        "query":"SELECT Year, 'NASA', 'DoD', 'Commercial' FROM 1pkq1u6yBAbJ2Tt_qKrhUb9rHMIIcs506noF2sEg WHERE 'Speed'='Subsonic'",
         "refreshInterval": 60,
-        "chartType": "BarChart",
+        "chartType": "LineChart",
         "options": {
-          "title":"Yearly User Hours of NASA Wind Tunnels",
+          "title":"Yearly Subsonic Wind Tunnel Costs by User",
           "hAxis": {"title": "Year"},
-          "vAxis": {"title": "User Hours"}
+          "vAxis": {"title": "Cost"}
         }
       });
     }

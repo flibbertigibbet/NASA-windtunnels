@@ -15,4 +15,7 @@ https://www.google.com/fusiontables/DataSource?docid=1rl35eu2FndFYWAhcLZiOB0ZAMb
 budget by speed
 https://www.google.com/fusiontables/DataSource?docid=1nE8JH46KFYlgNNxJYUOoglR6r2Y0ThotRBIRfug
 
+budget by speed, patially normal
+https://www.google.com/fusiontables/DataSource?docid=1pkq1u6yBAbJ2Tt_qKrhUb9rHMIIcs506noF2sEg
+
 

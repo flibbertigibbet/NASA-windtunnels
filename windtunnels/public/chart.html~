@@ -15,8 +15,8 @@
         "chartType": "BarChart",
         "options": {
           "title":"Yearly User Hours of NASA Wind Tunnels",
-          "hAxis": {"title": "User Hours"},
-          "vAxis": {"title": "Year"}
+          "hAxis": {"title": "Year"},
+          "vAxis": {"title": "User Hours"}
         }
       });
     }
