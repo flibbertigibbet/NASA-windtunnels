@@ -22,14 +22,15 @@
     }
     
     function makeSelection(sel) {
-      console.log('hi!')
       // get the index of the selected option 
       var idx = sel.selectedIndex; 
       // get the value of the selected option 
       var which = sel.options[idx].value; 
-      console.log(which);
+      
+      console.log(which); // to debug
+      
       if (which == 'All') {
-        drawVisualization();
+        drawVisualization(); // don't filter
       } else {
         redrawVisualization(which); // redraw, with filter
       }
@@ -42,7 +43,7 @@
         "containerId": "visualization_div",
         "dataSourceUrl": 'http://www.google.com/fusiontables/gvizdata?tq=',
         "query":"SELECT Year, 'NASA', 'DoD', 'Commercial' FROM 1pkq1u6yBAbJ2Tt_qKrhUb9rHMIIcs506noF2sEg WHERE 'Speed'='" + speed + "'",
-        "refreshInterval": 60,
+        "refreshInterval": 20,
         "chartType": "LineChart",
         "options": {
           "title":"Yearly " + speed + " Wind Tunnel Costs by User",
@@ -56,14 +57,17 @@
   </script>
 </head>
 <body style="font-family: Arial;border: 0 none;">
-  <select id="speed" onchange="makeSelection(this)">
-    <option value="All">All</option>
-    <option value="Subsonic">Subsonic</option>
-    <option value="Transonic">Transonic</option>
-    <option value="Supersonic">Supersonic</option>
-    <option value="Hypersonic">Hypersonic</option>
-    <option value="Propulsion">Propulsion</option>
-  </select>
+  <h4>Select speed:</h4>
+  <p>
+    <select id="speed" onchange="makeSelection(this)">
+      <option value="All">All</option>
+      <option value="Subsonic">Subsonic</option>
+      <option value="Transonic">Transonic</option>
+      <option value="Supersonic">Supersonic</option>
+      <option value="Hypersonic">Hypersonic</option>
+      <option value="Propulsion">Propulsion</option>
+    </select>
+  </p>
   <div id="visualization_div" style="width: 1000px; height: 500px;"></div>
 </body>
 </html>
