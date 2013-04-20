@@ -4,27 +4,109 @@
     <script type="text/javascript">
       google.load("visualization", "1", {packages:["corechart"]});
 
-      function drawVisualization() {
-      var queryText = encodeURIComponent("SELECT Year, 'NASA', 'DoD', 'Commercial' FROM 1Ed2y898rO5VwDN0j_k2fTkO97w3A8d8YAoBX8EU WHERE 'Location'='ARC Unitary'");
+      var chartType = 'LineChart';
+      var locSel = 'All';
+      
+      // Redraw chart if location is changed
+      function makeSelection(sel) {
+        var idx = sel.selectedIndex;
+        var which = sel.options[idx].value;
+        
+        console.log(which); // to debug
+        
+        locSel = which;
+        drawVisualization();
+      }
+      
+      // Redraw chart if type is changed
+      function selectChart(chart) {
+        var idx = chart.selectedIndex;
+        var which = chart.options[idx].value;
+        
+        console.log(which); // to debug
+        
+        chartType = which;
+        drawVisualization();
+      }
 
-      google.visualization.drawChart({
-        "containerId": "visualization_div",
-        "dataSourceUrl": 'http://www.google.com/fusiontables/gvizdata?tq=',
-        "query":"SELECT Year, 'NASA', 'DoD', 'Commercial' FROM 1Ed2y898rO5VwDN0j_k2fTkO97w3A8d8YAoBX8EU WHERE 'Location'='ARC Unitary'",
-        "refreshInterval": 60,
-        "chartType": "LineChart",
-        "options": {
-          "title":"Yearly Subsonic Wind Tunnel Hours by User",
-          "hAxis": {"title": "Year"},
-          "vAxis": {"title": "Hours"}
+      function drawVisualization() {
+        var myTitle = ""
+        var myHaxis = ""
+        var myVaxis = ""
+        var qry = ""
+
+        if (locSel == 'All') {
+          qry = "SELECT Year, SUM('NASA') AS 'NASA', SUM('DoD') AS 'DoD', SUM('Commercial') AS 'Commercial' FROM 1Ed2y898rO5VwDN0j_k2fTkO97w3A8d8YAoBX8EU GROUP BY Year"
+          
+          myTitle = "Yearly Wind Tunnel Hours by User"
+        } else {
+          qry = "SELECT Year, 'NASA', 'DoD', 'Commercial' FROM 1Ed2y898rO5VwDN0j_k2fTkO97w3A8d8YAoBX8EU WHERE 'Location'='" + locSel + "'"
+          myTitle = "Yearly Wind Tunnel Hours by User for Wind Tunnel: '" + locSel + "'"
         }
-      });
-    }
+        if (chartType == 'LineChart') {
+          myHaxis = "Year";
+          myVaxis = "Hours";
+        } else {
+          myHaxis = "Hours";
+          myVaxis = "Year";
+        }
+
+
+        var queryText = encodeURIComponent(qry);
+
+        google.visualization.drawChart({
+          "containerId": "visualization_div",
+          "dataSourceUrl": 'http://www.google.com/fusiontables/gvizdata?tq=',
+          "query": qry,
+          "refreshInterval": 60,
+          "chartType": chartType,
+          "options": {
+            "title": myTitle,
+            "hAxis": {"title": myHaxis},
+            "vAxis": {"title": myVaxis}
+          }
+        });
+      }
 
     google.setOnLoadCallback(drawVisualization);
   </script>
 </head>
 <body style="font-family: Arial;border: 0 none;">
+  <table border="1" caption="Select filters">
+    <tr>
+      <td>
+        <h4>Select location:</h4>
+      </td>
+      <td>
+        <h4>Select chart type:</h4>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <select id="location" onchange="makeSelection(this)">
+          <option value="All">All</option>
+          <option value="ARC Unitary">ARC Unitary</option>
+          <option value="GRC 10x10">GRC 10x10</option>
+          <option value="GRC 9x15/8x6">GRC 9x15/8x6</option>
+          <option value="GRC IRT">GRC IRT</option>
+          <option value="GRC PSL">GRC PSL</option>
+          <option value="LaRC 14x22">LaRC 14x22</option>
+          <option value="LaRC 20-Ft VST">LaRC 20-Ft VST</option>
+          <option value="LaRC 8-Ft HTT">LaRC 8-Ft HTT</option>
+          <option value="LaRC LAL">LaRC LAL</option>
+          <option value="LaRC NTF">LaRC NTF</option>
+          <option value="LaRC TDT">LaRC TDT</option>
+          <option value="LaRC UPWT">LaRC UPWT</option>
+        </select>
+      </td>
+      <td>
+        <select id="chart_type" onchange="selectChart(this)">
+          <option value="LineChart">Line Chart</option>
+          <option value="BarChart">Bar Chart</option>
+        </select>
+      </td>
+    </tr>
+  </table>
   <div id="visualization_div" style="width: 1000px; height: 500px;"></div>
 </body>
 </html>
