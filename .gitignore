@@ -12,3 +12,13 @@ logs
 results
 
 npm-debug.log
+
+# Standard text editor temp files
+~*
+*~
+*.swo
+*.swp
+
+# Keep local stuff here
+local/
+
