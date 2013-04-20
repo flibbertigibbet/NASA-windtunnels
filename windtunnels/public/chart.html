@@ -44,6 +44,11 @@
       console.log(which); // to debug
       
       chartType = which;
+      
+      if (chartType == 'PieChart') {
+        window.location = 'chart2.html';  // go to separate page for pie charts
+      }
+      
       drawVisualization();
     }
     
@@ -58,7 +63,7 @@
     }
     
     function drawVisualization() {
-      var myTitle = "";
+      var myTitle = "Yearly Wind Tunnel Costs by User";
       var myHaxis = "";
       var myVaxis = "";
       var qry = "";
@@ -82,9 +87,10 @@
         }
       }
       
-      if (chartType == 'LineChart' || chartType == 'AreaChart') {
+      if (chartType != 'BarChart') {
         myHaxis = "Year";
         myVaxis = "Cost";
+        catReverse = false;
       } else {
         myHaxis = "Cost";
         myVaxis = "Year";
@@ -132,8 +138,10 @@
       <td>
       <select id="chart_type" onchange="selectChart(this)">
         <option value="LineChart">Line Chart</option>
-        <option value="BarChart">Bar Chart</option>
         <option value="AreaChart">Area Chart</option>
+        <option value="ColumnChart">Column Chart</option>
+        <option value="BarChart">Bar Chart</option>
+        <option value="PieChart">Pie Chart</option>
       </select></td>
       <td>
       <select id="users" onchange="selectUsers(this)">
