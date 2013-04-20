@@ -5,18 +5,49 @@
       google.load("visualization", "1", {packages:["corechart"]});
 
       function drawVisualization() {
-      var queryText = encodeURIComponent("SELECT Hours, Year FROM 1T8zOrOm79lND_Ebc-dKHa1-94DWu95BLw71CRCo");
+      var queryText = encodeURIComponent("SELECT Year, 'NASA', 'DoD', 'Commercial' FROM 1pkq1u6yBAbJ2Tt_qKrhUb9rHMIIcs506noF2sEg WHERE 'Speed'='Subsonic'");
 
       google.visualization.drawChart({
         "containerId": "visualization_div",
         "dataSourceUrl": 'http://www.google.com/fusiontables/gvizdata?tq=',
-        "query":"SELECT Hours, Year FROM 1T8zOrOm79lND_Ebc-dKHa1-94DWu95BLw71CRCo",
-        "refreshInterval": 60,
-        "chartType": "BarChart",
+        "query":"SELECT Year, SUM('NASA') AS 'NASA', SUM('DoD') AS 'DoD', SUM('Commercial') AS 'Commercial' FROM 1pkq1u6yBAbJ2Tt_qKrhUb9rHMIIcs506noF2sEg GROUP BY Year",
+        "refreshInterval": 0,
+        "chartType": "LineChart",
         "options": {
-          "title":"Yearly User Hours of NASA Wind Tunnels",
+          "title":"Yearly Wind Tunnel Costs by User",
           "hAxis": {"title": "Year"},
-          "vAxis": {"title": "User Hours"}
+          "vAxis": {"title": "Cost"}
+        }
+      });
+    }
+    
+    function makeSelection(sel) {
+      console.log('hi!')
+      // get the index of the selected option 
+      var idx = sel.selectedIndex; 
+      // get the value of the selected option 
+      var which = sel.options[idx].value; 
+      console.log(which);
+      if (which == 'All') {
+        drawVisualization();
+      else {
+        redrawVisualization(which); // redraw, with filter
+      }
+    }
+    
+    function redrawVisualization(speed) {
+      var queryText = encodeURIComponent("SELECT Year, 'NASA', 'DoD', 'Commercial' FROM 1pkq1u6yBAbJ2Tt_qKrhUb9rHMIIcs506noF2sEg WHERE 'Speed'='" + speed + "'");
+
+      google.visualization.drawChart({
+        "containerId": "visualization_div",
+        "dataSourceUrl": 'http://www.google.com/fusiontables/gvizdata?tq=',
+        "query":"SELECT Year, 'NASA', 'DoD', 'Commercial' FROM 1pkq1u6yBAbJ2Tt_qKrhUb9rHMIIcs506noF2sEg WHERE 'Speed'='" + speed + "'",
+        "refreshInterval": 60,
+        "chartType": "LineChart",
+        "options": {
+          "title":"Yearly " + speed + " Wind Tunnel Costs by User",
+          "hAxis": {"title": "Year"},
+          "vAxis": {"title": "Cost"}
         }
       });
     }
@@ -25,6 +56,14 @@
   </script>
 </head>
 <body style="font-family: Arial;border: 0 none;">
+  <select id="speed" onchange="makeSelection(this)">
+    <option value="All">All</option>
+    <option value="Subsonic">Subsonic</option>
+    <option value="Transonic">Transonic</option>
+    <option value="Supersonic">Supersonic</option>
+    <option value="Hypersonic">Hypersonic</option>
+    <option value="Propulsion">Propulsion</option>
+  </select>
   <div id="visualization_div" style="width: 1000px; height: 500px;"></div>
 </body>
 </html>
