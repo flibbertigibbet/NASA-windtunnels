@@ -3,23 +3,9 @@
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript">
       google.load("visualization", "1", {packages:["corechart"]});
-
-      function drawVisualization() {
-      var queryText = encodeURIComponent("SELECT Year, 'NASA', 'DoD', 'Commercial' FROM 1pkq1u6yBAbJ2Tt_qKrhUb9rHMIIcs506noF2sEg WHERE 'Speed'='Subsonic'");
-
-      google.visualization.drawChart({
-        "containerId": "visualization_div",
-        "dataSourceUrl": 'http://www.google.com/fusiontables/gvizdata?tq=',
-        "query":"SELECT Year, SUM('NASA') AS 'NASA', SUM('DoD') AS 'DoD', SUM('Commercial') AS 'Commercial' FROM 1pkq1u6yBAbJ2Tt_qKrhUb9rHMIIcs506noF2sEg GROUP BY Year",
-        "refreshInterval": 0,
-        "chartType": "LineChart",
-        "options": {
-          "title":"Yearly Wind Tunnel Costs by User",
-          "hAxis": {"title": "Year"},
-          "vAxis": {"title": "Cost"}
-        }
-      });
-    }
+      
+      var chartType = 'LineChart';
+      var speedSel = 'All';
     
     function makeSelection(sel) {
       // get the index of the selected option 
@@ -29,26 +15,72 @@
       
       console.log(which); // to debug
       
+      speedSel = which;
+      
+      //console.log(document.getElementById("speed").options[document.getElementById("speed").selectedIndex].value);
+      
       if (which == 'All') {
         drawVisualization(); // don't filter
       } else {
-        redrawVisualization(which); // redraw, with filter
+        redrawVisualization(); // redraw, with filter
       }
     }
     
-    function redrawVisualization(speed) {
-      var queryText = encodeURIComponent("SELECT Year, 'NASA', 'DoD', 'Commercial' FROM 1pkq1u6yBAbJ2Tt_qKrhUb9rHMIIcs506noF2sEg WHERE 'Speed'='" + speed + "'");
+    function makeSelection(sel) {
+      var idx = sel.selectedIndex;
+      var which = sel.options[idx].value;
+      
+      console.log(which); // to debug
+      
+      speedSel = which;
+      drawVisualization();
+    }
+    
+    function selectChart(chart) {
+      var idx = chart.selectedIndex;
+      var which = chart.options[idx].value;
+      
+      console.log(which); // to debug
+      
+      chartType = which;
+      drawVisualization();
+    }
+    
+    function drawVisualization() {
+      var myTitle = ""
+      var myHaxis = ""
+      var myVaxis = ""
+      var qry = ""
+      if (speedSel == 'All') {
+        qry = "SELECT Year, SUM('NASA') AS 'NASA', SUM('DoD') AS 'DoD', SUM('Commercial') AS 'Commercial' FROM 1pkq1u6yBAbJ2Tt_qKrhUb9rHMIIcs506noF2sEg GROUP BY Year"
+        myTile = "Yearly Wind Tunnel Costs by User"
+      } else {
+        qry = "SELECT Year, 'NASA', 'DoD', 'Commercial' FROM 1pkq1u6yBAbJ2Tt_qKrhUb9rHMIIcs506noF2sEg WHERE 'Speed'='" + speedSel + "'"
+        myTitle = "Yearly " + speedSel + " Wind Tunnel Costs by User"
+      }
+      
+      if (chartType == 'LineChart') {
+        myHaxis = "Year";
+        myVaxis = "Cost";
+      } else {
+        myHaxis = "Cost";
+        myVaxis = "Year";
+      }
+   
+      var queryText = encodeURIComponent(qry);
+      
+      console.log(speedSel);
 
       google.visualization.drawChart({
         "containerId": "visualization_div",
         "dataSourceUrl": 'http://www.google.com/fusiontables/gvizdata?tq=',
-        "query":"SELECT Year, 'NASA', 'DoD', 'Commercial' FROM 1pkq1u6yBAbJ2Tt_qKrhUb9rHMIIcs506noF2sEg WHERE 'Speed'='" + speed + "'",
+        "query":qry,
         "refreshInterval": 20,
-        "chartType": "LineChart",
+        "chartType": chartType,
         "options": {
-          "title":"Yearly " + speed + " Wind Tunnel Costs by User",
-          "hAxis": {"title": "Year"},
-          "vAxis": {"title": "Cost"}
+          "title":myTitle,
+          "hAxis": {"title": myHaxis},
+          "vAxis": {"title": myVaxis}
         }
       });
     }
@@ -57,17 +89,24 @@
   </script>
 </head>
 <body style="font-family: Arial;border: 0 none;">
-  <h4>Select speed:</h4>
-  <p>
-    <select id="speed" onchange="makeSelection(this)">
-      <option value="All">All</option>
-      <option value="Subsonic">Subsonic</option>
-      <option value="Transonic">Transonic</option>
-      <option value="Supersonic">Supersonic</option>
-      <option value="Hypersonic">Hypersonic</option>
-      <option value="Propulsion">Propulsion</option>
-    </select>
-  </p>
+  <table border="1" caption="Select filters"><tr><td>
+    <h4>Select speed:</h4></td>
+      <td><h4>Select chart type:</h4></td></tr>
+      <tr><td>
+      <select id="speed" onchange="makeSelection(this)">
+        <option value="All">All</option>
+        <option value="Subsonic">Subsonic</option>
+        <option value="Transonic">Transonic</option>
+        <option value="Supersonic">Supersonic</option>
+        <option value="Hypersonic">Hypersonic</option>
+        <option value="Propulsion">Propulsion</option>
+      </select></td>
+      <td>
+      <select id="chart_type" onchange="selectChart(this)">
+        <option value="LineChart">Line Chart</option>
+        <option value="BarChart">Bar Chart</option>
+      </select></td></tr>
+    </table>
   <div id="visualization_div" style="width: 1000px; height: 500px;"></div>
 </body>
 </html>
