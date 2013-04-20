@@ -5,7 +5,8 @@
 
 var express = require('express')
   , routes = require('./routes')
-  , chart = require('./routes/chart');
+  , chart = require('./routes/chart')
+  , chart = require('./routes/bar');
 
 var app = module.exports = express.createServer();
 
@@ -45,6 +46,9 @@ express.compiler.compilers.less.compile = function(str, fn){
 app.get('/', routes.index);
 app.get('/chart', function(req, res) {
   res.sendfile(__dirname + '/public/chart.html');
+});
+app.get('/bar', function(req, res) {
+  res.sendfile(__dirname + '/public/bar.html');
 });
 
 app.listen(3000, function(){
