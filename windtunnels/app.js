@@ -6,7 +6,8 @@
 var express = require('express')
   , routes = require('./routes')
   , chart = require('./routes/chart')
-  , chart = require('./routes/bar');
+  , chart2 = require('./routes/chart2')
+  , bar = require('./routes/bar');
 
 var app = module.exports = express.createServer();
 
@@ -46,6 +47,9 @@ express.compiler.compilers.less.compile = function(str, fn){
 app.get('/', routes.index);
 app.get('/chart', function(req, res) {
   res.sendfile(__dirname + '/public/chart.html');
+});
+app.get('/chart2', function(req, res) {
+  res.sendfile(__dirname + '/public/chart2.html');
 });
 app.get('/bar', function(req, res) {
   res.sendfile(__dirname + '/public/bar.html');
