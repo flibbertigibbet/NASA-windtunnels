@@ -58,10 +58,12 @@
     }
     
     function drawVisualization() {
-      var myTitle = ""
-      var myHaxis = ""
-      var myVaxis = ""
-      var qry = ""
+      var myTitle = "";
+      var myHaxis = "";
+      var myVaxis = "";
+      var qry = "";
+      var catReverse = false; // reverse categories or not (do so for bar charts)
+      
       if (speedSel == 'All') {
         if (showUsers == 'series') {
           qry = "SELECT Year, SUM('NASA') AS 'NASA', SUM('DoD') AS 'DoD', SUM('Commercial') AS 'Commercial' FROM 1pkq1u6yBAbJ2Tt_qKrhUb9rHMIIcs506noF2sEg GROUP BY Year"
@@ -86,6 +88,7 @@
       } else {
         myHaxis = "Cost";
         myVaxis = "Year";
+        catReverse = true;
       }
    
       var queryText = encodeURIComponent(qry);
@@ -101,7 +104,8 @@
         "options": {
           "title":myTitle,
           "hAxis": {"title": myHaxis, format: '$###,###,###.##'},
-          "vAxis": {"title": myVaxis, format: '$###,###,###.##'}
+          "vAxis": {"title": myVaxis, format: '$###,###,###.##'},
+          reverseCategories:catReverse
         }
       });
     }
