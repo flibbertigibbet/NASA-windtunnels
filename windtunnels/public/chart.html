@@ -6,6 +6,7 @@
       
       var chartType = 'LineChart';
       var speedSel = 'All';
+      var showUsers = 'series';
     
     function makeSelection(sel) {
       // get the index of the selected option 
@@ -46,20 +47,40 @@
       drawVisualization();
     }
     
+    function selectUsers(sel) {
+      var idx = sel.selectedIndex;
+      var which = sel.options[idx].value;
+      
+      console.log(which); // to debug
+      
+      showUsers = which;
+      drawVisualization();
+    }
+    
     function drawVisualization() {
       var myTitle = ""
       var myHaxis = ""
       var myVaxis = ""
       var qry = ""
       if (speedSel == 'All') {
-        qry = "SELECT Year, SUM('NASA') AS 'NASA', SUM('DoD') AS 'DoD', SUM('Commercial') AS 'Commercial' FROM 1pkq1u6yBAbJ2Tt_qKrhUb9rHMIIcs506noF2sEg GROUP BY Year"
-        myTile = "Yearly Wind Tunnel Costs by User"
+        if (showUsers == 'series') {
+          qry = "SELECT Year, SUM('NASA') AS 'NASA', SUM('DoD') AS 'DoD', SUM('Commercial') AS 'Commercial' FROM 1pkq1u6yBAbJ2Tt_qKrhUb9rHMIIcs506noF2sEg GROUP BY Year"
+          myTile = "Yearly Wind Tunnel Costs by User"
+        } else {
+          qry = "SELECT Year, SUM('Cost') AS 'Cost' FROM 1nE8JH46KFYlgNNxJYUOoglR6r2Y0ThotRBIRfug GROUP BY Year"
+          myTile = "Yearly Wind Tunnel Costs"
+        }
       } else {
-        qry = "SELECT Year, 'NASA', 'DoD', 'Commercial' FROM 1pkq1u6yBAbJ2Tt_qKrhUb9rHMIIcs506noF2sEg WHERE 'Speed'='" + speedSel + "'"
-        myTitle = "Yearly " + speedSel + " Wind Tunnel Costs by User"
+        if (showUsers == 'series') {
+          qry = "SELECT Year, 'NASA', 'DoD', 'Commercial' FROM 1pkq1u6yBAbJ2Tt_qKrhUb9rHMIIcs506noF2sEg WHERE 'Speed'='" + speedSel + "'"
+          myTitle = "Yearly " + speedSel + " Wind Tunnel Costs by User"
+        } else {
+          qry = "SELECT Year, SUM('Cost') As 'Cost' FROM 1nE8JH46KFYlgNNxJYUOoglR6r2Y0ThotRBIRfug WHERE 'Speed'='" + speedSel + "' GROUP BY Year"
+          myTitle = "Yearly " + speedSel + " Wind Tunnel Costs"
+        }
       }
       
-      if (chartType == 'LineChart') {
+      if (chartType == 'LineChart' || chartType == 'AreaChart') {
         myHaxis = "Year";
         myVaxis = "Cost";
       } else {
@@ -89,9 +110,12 @@
   </script>
 </head>
 <body style="font-family: Arial;border: 0 none;">
-  <table border="1" caption="Select filters"><tr><td>
-    <h4>Select speed:</h4></td>
-      <td><h4>Select chart type:</h4></td></tr>
+  <table border="1">
+    <caption>Select Chart Options</caption>
+    <tr><td><h4>Speed:</h4></td>
+      <td><h4>Chart Type:</h4></td>
+      <td><h4>Users:</h4></td>
+      </tr>
       <tr><td>
       <select id="speed" onchange="makeSelection(this)">
         <option value="All">All</option>
@@ -105,7 +129,14 @@
       <select id="chart_type" onchange="selectChart(this)">
         <option value="LineChart">Line Chart</option>
         <option value="BarChart">Bar Chart</option>
-      </select></td></tr>
+        <option value="AreaChart">Area Chart</option>
+      </select></td>
+      <td>
+      <select id="users" onchange="selectUsers(this)">
+        <option value="series">Show as Series</option>
+        <option value="all">Sum All</option>
+      </select></td>
+      </tr>
     </table>
   <div id="visualization_div" style="width: 1000px; height: 500px;"></div>
 </body>
