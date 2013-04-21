@@ -1,6 +1,7 @@
 <html>
   <title>Costs by Location</title>
   <head>
+    <link href="/stylesheets/style.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript">
       google.load("visualization", "1", {packages:["corechart"]});
@@ -141,48 +142,56 @@
   </script>
 </head>
 <body style="font-family: Arial;border: 0 none;text-align:center">
-  <h3>NASA Wind Tunnel Testing Facility Costs, by Location</h3>
-  <table border="1" style="margin-left:auto;margin-right:auto">
-    <caption>Select Chart Options</caption>
-    <tr style="text-align:center"><td><h4>Facility:</h4></td>
-      <td><h4>Location:</h4></td>
-      <td><h4>Chart Type:</h4></td>
-      <td><h4>Users:</h4></td>
-      </tr>
-      <tr>
-        <td><select id="location_category" onchange="selectLocCat(this)">
-          <option value="All">All</option>
-          <option value="ARC">Ames Research Center</option>
-          <option value="GRC">Glenn Research Center</option>
-          <option value="LaRC">Langley Research Center</option>
-        </select></td>
-        <td><select id="location" onchange="selectLocation(this)">
-          <option value="All">All</option>
-          <option value="ARC Unitary">ARC Unitary</option>
-          <option value="GRC 10x10">GRC 10x10</option>
-          <option value="GRC 9x15/8x6">GRC 9x15/8x6</option>
-          <option value="GRC IRT">GRC IRT</option>
-          <option value="GRC PSL">GRC PSL</option>
-          <option value="LaRC 14x22">LaRC 14x22</option>
-          <option value="LaRC 20-Ft VST">LaRC 20-Ft VST</option>
-          <option value="LaRC 8-Ft HTT">LaRC 8-Ft HTT</option>
-          <option value="LaRC LAL">LaRC LAL</option>
-          <option value="LaRC NTF">LaRC NTF</option>
-          <option value="LaRC TDT">LaRC TDT</option>
-          <option value="LaRC UPWT">LaRC UPWT</option>
-        </select></td>
-        <td><select id="chart_type" onchange="selectChart(this)">
-          <option value="LineChart">Line Chart</option>
-          <option value="AreaChart">Area Chart</option>
-          <option value="ColumnChart">Column Chart</option>
-          <option value="BarChart">Bar Chart</option>
-        </select></td>
-        <td><select id="users" onchange="selectUsers(this)">
-          <option value="series">Show as Series</option>
-          <option value="all">Sum All</option>
-        </select></td>
-      </tr>
-    </table>
-  <div id="visualization_div" style="width: 1000px; height: 500px; margin-left:auto; margin-right:auto"></div>
+  <div id="container">
+    <div id="header">
+      <h2>NASA Wind Tunnel Testing Facility Costs, by Location</h2>
+    </div>
+    <a href=".">>>Back to menu</a>
+    <table border="1" style="margin-left:auto;margin-right:auto">
+      <caption>Select Chart Options</caption>
+      <tr style="text-align:center"><td><h4>Facility:</h4></td>
+        <td><h4>Location:</h4></td>
+        <td><h4>Chart Type:</h4></td>
+        <td><h4>Users:</h4></td>
+        </tr>
+        <tr>
+          <td><select id="location_category" onchange="selectLocCat(this)">
+            <option value="All">All</option>
+            <option value="ARC">Ames Research Center</option>
+            <option value="GRC">Glenn Research Center</option>
+            <option value="LaRC">Langley Research Center</option>
+          </select></td>
+          <td><select id="location" onchange="selectLocation(this)">
+            <option value="All">All</option>
+            <option value="ARC Unitary">ARC Unitary</option>
+            <option value="GRC 10x10">GRC 10x10</option>
+            <option value="GRC 9x15/8x6">GRC 9x15/8x6</option>
+            <option value="GRC IRT">GRC IRT</option>
+            <option value="GRC PSL">GRC PSL</option>
+            <option value="LaRC 14x22">LaRC 14x22</option>
+            <option value="LaRC 20-Ft VST">LaRC 20-Ft VST</option>
+            <option value="LaRC 8-Ft HTT">LaRC 8-Ft HTT</option>
+            <option value="LaRC LAL">LaRC LAL</option>
+            <option value="LaRC NTF">LaRC NTF</option>
+            <option value="LaRC TDT">LaRC TDT</option>
+            <option value="LaRC UPWT">LaRC UPWT</option>
+          </select></td>
+          <td><select id="chart_type" onchange="selectChart(this)">
+            <option value="LineChart">Line Chart</option>
+            <option value="AreaChart">Area Chart</option>
+            <option value="ColumnChart">Column Chart</option>
+            <option value="BarChart">Bar Chart</option>
+          </select></td>
+          <td><select id="users" onchange="selectUsers(this)">
+            <option value="series">Show as Series</option>
+            <option value="all">Sum All</option>
+          </select></td>
+        </tr>
+      </table>
+    <div id="visualization_div" style="width: 1000px; height: 500px; margin-left:auto; margin-right:auto"></div>
+    <div id="footer"><a href="http://spaceappschallenge.org/" target="_blank">2013 Space Apps Challenge</a> | 
+        <a href="http://spaceappschallenge.org/challenge/nasa-wind-tunnel-visualization" target="_blank">NASA Wind Tunnel Visualiation Challenge</a> | 
+        <a href="http://spaceappschallenge.org/project/tunnel-vision" target="_blank">Team Tunnel Vision</a>
+    </div>
 </body>
 </html>
