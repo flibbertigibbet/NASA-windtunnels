@@ -77,6 +77,16 @@ p{
   margin-bottom: 5px;
 }
 
+#menu{
+  width: 1000px;
+  margin-right: 450px;
+}
+
+#map{
+  width: 450px;
+  float: right;
+}
+
 #container{
   text-align: left;
   width: 1000px; 
