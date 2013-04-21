@@ -1,9 +1,0 @@
-extends layout
-
-block content
-  div(style='text-align: center')
-    h1= title
-    p Welcome to #{title}, the NASA Wind Tunnel Usage Data Visualization!
-    ul#Charts
-    li: a(href="/costbylocation") Costs by Location
-    li: a(href="/costbyspeed") Costs by Wind Speed
