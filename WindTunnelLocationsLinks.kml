@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://earth.google.com/kml/2.2">
+<Document>
+  <name>Wind Tunnel Locations</name>
+  <description><![CDATA[This map shows where NASA's wind tunnels are located. ]]></description>
+  <Style id="style3">
+    <IconStyle>
+      <Icon>
+        <href>http://maps.gstatic.com/mapfiles/ms2/micons/blue-dot.png</href>
+      </Icon>
+    </IconStyle>
+  </Style>
+  <Style id="style2">
+    <IconStyle>
+      <Icon>
+        <href>http://maps.gstatic.com/mapfiles/ms2/micons/blue-dot.png</href>
+      </Icon>
+    </IconStyle>
+  </Style>
+  <Style id="style1">
+    <IconStyle>
+      <Icon>
+        <href>http://maps.gstatic.com/mapfiles/ms2/micons/blue-dot.png</href>
+      </Icon>
+    </IconStyle>
+  </Style>
+  <Placemark>
+    <name>Glenn Research Center</name>
+    <description><![CDATA[<a href="http://www.nasa.gov/centers/glenn/home/index.html">Glenn Research Center</a>]]></description>
+    <styleUrl>#style3</styleUrl>
+    <Point>
+      <coordinates>-81.861923,41.416309,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
+    <name>Langley Research Center</name>
+    <description><![CDATA[<a href="http://www.nasa.gov/centers/langley/home/index.html">Langley Research Center</a>]]></description>
+    <styleUrl>#style2</styleUrl>
+    <Point>
+      <coordinates>-76.376183,37.092636,0.000000</coordinates>
+    </Point>
+  </Placemark>
+  <Placemark>
+    <name>Ames Research Center</name>
+    <description><![CDATA[<a href="http://www.nasa.gov/centers/ames/home/index.html">Ames Research Center</a>]]></description>
+    <styleUrl>#style1</styleUrl>
+    <Point>
+      <coordinates>-122.064285,37.409054,0.000000</coordinates>
+    </Point>
+  </Placemark>
+</Document>
+</kml>
