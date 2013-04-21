@@ -7,14 +7,48 @@
       
       var chartType = 'LineChart';
       var locSel = 'All';
+      var locCatSel = 'All'; // location category (facility)
       var showUsers = 'series';
+      var dontDraw = false; // flag to indicate if selection made programatically
     
-      function makeSelection(sel) {
+      function selectLocCat(sel) {
+        var idx = sel.selectedIndex;
+        var which = sel.options[idx].value;
+        
+        locCatSel = which;
+        
+        // filter by either facility or location (but not both)
+        if (locCatSel != 'All') {
+          dontDraw = true;
+          document.getElementById("location").value = 'All';
+          locSel = 'All';
+          drawVisualization();
+          dontDraw = false;
+        } else {
+          if (!dontDraw) {
+            drawVisualization();
+           }
+        }
+      }
+    
+      function selectLocation(sel) {
         var idx = sel.selectedIndex;
         var which = sel.options[idx].value;
         
         locSel = which;
-        drawVisualization();
+        
+        // filter by either facility or location (but not both)
+        if (locCatSel != 'All') {
+          dontDraw = true;
+          document.getElementById("location_category").value = 'All';
+          locCatSel = 'All';
+          drawVisualization();
+          dontDraw = false;
+        } else {
+          if (!dontDraw) {
+            drawVisualization();
+           }
+        }
       }
     
       function selectChart(chart) {
@@ -22,10 +56,6 @@
         var which = chart.options[idx].value;
         
         chartType = which;
-        
-        if (chartType == 'PieChart') {
-          window.location = 'chart2.html';  // go to separate page for pie charts
-        }
         
         drawVisualization();
       }
@@ -48,14 +78,29 @@
         var catReverse = false; // reverse categories or not (do so for bar charts)
         
         if (locSel == 'All') {
-          if (showUsers == 'series') {
-            qry = "SELECT Year, SUM('NASA') AS 'NASA', SUM('DoD') AS 'DoD', SUM('Commercial') AS 'Commercial' FROM 1cg2qQJLDyuutklVzabwV4jXnnA83pelReqY0SNs GROUP BY Year"
-            myTitle = "Yearly Wind Tunnel Hours by User"
+          if (locCatSel == 'All') {
+          
+            if (showUsers == 'series') {
+              qry = "SELECT Year, SUM('NASA') AS 'NASA', SUM('DoD') AS 'DoD', SUM('Commercial') AS 'Commercial' FROM 1cg2qQJLDyuutklVzabwV4jXnnA83pelReqY0SNs GROUP BY Year"
+              myTitle = "Yearly Wind Tunnel Hours by User"
+            } else {
+              qry = "SELECT Year, SUM('Hours') AS 'Hours' FROM 1T8zOrOm79lND_Ebc-dKHa1-94DWu95BLw71CRCo GROUP BY Year"
+              myTitle = "Yearly Wind Tunnel Hours"
+            }
+            
           } else {
-            qry = "SELECT Year, SUM('Hours') AS 'Hours' FROM 1T8zOrOm79lND_Ebc-dKHa1-94DWu95BLw71CRCo GROUP BY Year"
-            myTitle = "Yearly Wind Tunnel Hours"
+            // filter by location category
+            if (showUsers == 'series') {
+              qry = "SELECT Year, 'NASA', 'DoD', 'Commercial' FROM 1cg2qQJLDyuutklVzabwV4jXnnA83pelReqY0SNs WHERE 'LocationCategory'='" + locCatSel + "'"
+              myTitle = "Yearly " + locCatSel + " Wind Tunnel Hours by User"
+            } else {
+              qry = "SELECT Year, SUM('Hours') As 'Hours' FROM 1T8zOrOm79lND_Ebc-dKHa1-94DWu95BLw71CRCo WHERE 'LocationCategory'='" + locCatSel + "' GROUP BY Year"
+              myTitle = "Yearly " + locCatSel + " Wind Tunnel Hours"
+            }
           }
+          
         } else {
+          // filter by location
           if (showUsers == 'series') {
             qry = "SELECT Year, 'NASA', 'DoD', 'Commercial' FROM 1cg2qQJLDyuutklVzabwV4jXnnA83pelReqY0SNs WHERE 'Location'='" + locSel + "'"
             myTitle = "Yearly " + locSel + " Wind Tunnel Hours by User"
@@ -99,12 +144,18 @@
   <h3>NASA Wind Tunnel Testing Facility Hours, by Location</h3>
   <table border="1" style="margin-left:auto;margin-right:auto">
     <caption>Select Chart Options</caption>
-    <tr style="text-align:center"><td><h4>Location:</h4></td>
+    <tr style="text-align:center"><td><h4>Facility:</h4></td>
+      <td><h4>Location:</h4></td>
       <td><h4>Chart Type:</h4></td>
       <td><h4>Users:</h4></td>
       </tr>
-      <tr><td>
-      <select id="location" onchange="makeSelection(this)">
+      <tr><td><select id="location_category" onchange="selectLocCat(this)">
+          <option value="All">All</option>
+          <option value="ARC">Ames Research Center</option>
+          <option value="GRC">Glenn Research Center</option>
+          <option value="LaRC">Langley Research Center</option>
+        </select></td>
+      <td><select id="location" onchange="selectLocation(this)">
         <option value="All">All</option>
         <option value="ARC Unitary">ARC Unitary</option>
         <option value="GRC 10x10">GRC 10x10</option>
@@ -125,7 +176,6 @@
         <option value="AreaChart">Area Chart</option>
         <option value="ColumnChart">Column Chart</option>
         <option value="BarChart">Bar Chart</option>
-        <option value="PieChart">Pie Chart</option>
       </select></td>
       <td>
       <select id="users" onchange="selectUsers(this)">

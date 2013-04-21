@@ -13,6 +13,7 @@ var express = require('express')
   , hoursbyspeed = require('./routes/hoursbyspeed')
   , costbylocation = require('./routes/costbylocation')
   , hoursbylocation = require('./routes/hoursbylocation')
+  , hoursbylocation = require('./routes/nasahoursbylocation')
   , chart2 = require('./routes/chart2')
   , bar = require('./routes/bar');
 
@@ -50,6 +51,9 @@ app.get('/hoursbyspeed', function(req, res) {
 });
 app.get('/hoursbylocation', function(req, res) {
   res.sendfile(__dirname + '/public/hoursbylocation.html');
+});
+app.get('/nasahoursbylocation', function(req, res) {
+  res.sendfile(__dirname + '/public/nasahoursbylocation.html');
 });
 app.get('/chart2', function(req, res) {
   res.sendfile(__dirname + '/public/chart2.html');
