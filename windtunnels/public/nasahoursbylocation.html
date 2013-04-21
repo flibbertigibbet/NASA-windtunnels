@@ -82,7 +82,7 @@
           
             if (showUsers == 'series') {
               qry = "SELECT Year, SUM('ARMD') AS 'ARMD FundAero', SUM('ESMD') AS 'ESMD CEV', SUM('SMD') AS 'SMD', SUM('SOMD') AS 'SOMD Commercial' FROM 1vHKP5ooapm8g9i2SDUplDmvKgiAIoqospiGsP84 GROUP BY Year"
-              myTitle = "Yearly Wind Tunnel Hours by NASA group"
+              myTitle = "Yearly Wind Tunnel Hours by NASA Group"
             } else {
               qry = "SELECT Year, SUM('Hours') AS 'Hours' FROM 1zfpCaGtzDgIl1NTyxpcJ21XUEIBi4Gr4eUnFtFo GROUP BY Year"
               myTitle = "Yearly Wind Tunnel Hours"
@@ -92,7 +92,7 @@
             // filter by location category
             if (showUsers == 'series') {
               qry = "SELECT Year, 'ARMD' AS 'ARMD FundAero', 'ESMD' AS 'ESMD CEV', 'SMD' AS 'SMD', 'SOMD' AS 'SOMD Commercial' FROM 1vHKP5ooapm8g9i2SDUplDmvKgiAIoqospiGsP84 WHERE 'LocationCategory'='" + locCatSel + "'"
-              myTitle = "Yearly " + locCatSel + " Wind Tunnel Hours by User"
+              myTitle = "Yearly " + locCatSel + " Wind Tunnel Hours by NASA Group"
             } else {
               qry = "SELECT Year, SUM('Hours') As 'Hours' FROM 1zfpCaGtzDgIl1NTyxpcJ21XUEIBi4Gr4eUnFtFo WHERE 'LocationCategory'='" + locCatSel + "' GROUP BY Year"
               myTitle = "Yearly " + locCatSel + " Wind Tunnel Hours"
@@ -103,7 +103,7 @@
           // filter by location
           if (showUsers == 'series') {
             qry = "SELECT Year, 'ARMD' AS 'ARMD FundAero', 'ESMD' AS 'ESMD CEV', 'SMD' AS 'SMD', 'SOMD' AS 'SOMD Commercial' FROM 1vHKP5ooapm8g9i2SDUplDmvKgiAIoqospiGsP84 WHERE 'Location'='" + locSel + "'"
-            myTitle = "Yearly " + locSel + " Wind Tunnel Hours by User"
+            myTitle = "Yearly " + locSel + " Wind Tunnel Hours by NASA Group"
           } else {
             qry = "SELECT Year, SUM('Hours') As 'Hours' FROM 1zfpCaGtzDgIl1NTyxpcJ21XUEIBi4Gr4eUnFtFo WHERE 'Location'='" + locSel + "' GROUP BY Year"
             myTitle = "Yearly " + locSel + " Wind Tunnel Hours"
