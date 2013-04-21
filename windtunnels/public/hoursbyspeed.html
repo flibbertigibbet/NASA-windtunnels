@@ -1,6 +1,7 @@
 <html>
   <title>Hours by Wind Speed</title>
   <head>
+    <link href="/stylesheets/style.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript">
       google.load("visualization", "1", {packages:["corechart"]});
@@ -90,7 +91,11 @@
   </script>
 </head>
 <body style="font-family: Arial;border: 0 none;">
-  <h3 style="text-align:center">NASA Wind Tunnel Testing Facility Hours, by Wind Speed</h3>
+  <div id="container">
+    <div id="header">
+  <h2 style="text-align:center">NASA Wind Tunnel Testing Facility Hours, by Wind Speed</h2>
+</div>
+<a href=".">>>Back to menu</a>
   <table border="1" style="margin-left:auto;margin-right:auto">
     <caption>Select Chart Options</caption>
     <tr style="text-align:center"><td><h4>Speed:</h4></td>
@@ -121,5 +126,10 @@
       </tr>
     </table>
   <div id="visualization_div" style="width: 1000px; height: 500px; margin-left:auto; margin-right:auto"></div>
+  <div id="footer"><a href="http://spaceappschallenge.org/" target="_blank">2013 Space Apps Challenge</a> | 
+        <a href="http://spaceappschallenge.org/challenge/nasa-wind-tunnel-visualization" target="_blank">NASA Wind Tunnel Visualiation Challenge</a> | 
+        <a href="http://spaceappschallenge.org/project/tunnel-vision" target="_blank">Team Tunnel Vision</a>
+  </div>
+</div>
 </body>
 </html>
