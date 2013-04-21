@@ -1,0 +1,157 @@
+<html>
+  <title>Costs by Wind Speed</title>
+  <head>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      
+      var chartType = 'LineChart';
+      var speedSel = 'All';
+      var showUsers = 'series';
+    
+    function makeSelection(sel) {
+      // get the index of the selected option 
+      var idx = sel.selectedIndex; 
+      // get the value of the selected option 
+      var which = sel.options[idx].value; 
+      
+      console.log(which); // to debug
+      
+      speedSel = which;
+      
+      //console.log(document.getElementById("speed").options[document.getElementById("speed").selectedIndex].value);
+      
+      if (which == 'All') {
+        drawVisualization(); // don't filter
+      } else {
+        redrawVisualization(); // redraw, with filter
+      }
+    }
+    
+    function makeSelection(sel) {
+      var idx = sel.selectedIndex;
+      var which = sel.options[idx].value;
+      
+      console.log(which); // to debug
+      
+      speedSel = which;
+      drawVisualization();
+    }
+    
+    function selectChart(chart) {
+      var idx = chart.selectedIndex;
+      var which = chart.options[idx].value;
+      
+      console.log(which); // to debug
+      
+      chartType = which;
+      
+      if (chartType == 'PieChart') {
+        window.location = 'chart2.html';  // go to separate page for pie charts
+      }
+      
+      drawVisualization();
+    }
+    
+    function selectUsers(sel) {
+      var idx = sel.selectedIndex;
+      var which = sel.options[idx].value;
+      
+      console.log(which); // to debug
+      
+      showUsers = which;
+      drawVisualization();
+    }
+    
+    function drawVisualization() {
+      var myTitle = "";
+      var myHaxis = "";
+      var myVaxis = "";
+      var qry = "";
+      var catReverse = false; // reverse categories or not (do so for bar charts)
+      
+      if (speedSel == 'All') {
+        if (showUsers == 'series') {
+          qry = "SELECT Year, SUM('NASA') AS 'NASA', SUM('DoD') AS 'DoD', SUM('Commercial') AS 'Commercial' FROM 1pkq1u6yBAbJ2Tt_qKrhUb9rHMIIcs506noF2sEg GROUP BY Year"
+          myTitle = "Yearly Wind Tunnel Costs by User"
+        } else {
+          qry = "SELECT Year, SUM('Cost') AS 'Cost' FROM 1nE8JH46KFYlgNNxJYUOoglR6r2Y0ThotRBIRfug GROUP BY Year"
+          myTitle = "Yearly Wind Tunnel Costs"
+        }
+      } else {
+        if (showUsers == 'series') {
+          qry = "SELECT Year, 'NASA', 'DoD', 'Commercial' FROM 1pkq1u6yBAbJ2Tt_qKrhUb9rHMIIcs506noF2sEg WHERE 'Speed'='" + speedSel + "'"
+          myTitle = "Yearly " + speedSel + " Wind Tunnel Costs by User"
+        } else {
+          qry = "SELECT Year, SUM('Cost') As 'Cost' FROM 1nE8JH46KFYlgNNxJYUOoglR6r2Y0ThotRBIRfug WHERE 'Speed'='" + speedSel + "' GROUP BY Year"
+          myTitle = "Yearly " + speedSel + " Wind Tunnel Costs"
+        }
+      }
+      
+      if (chartType != 'BarChart') {
+        myHaxis = "Year";
+        myVaxis = "Cost";
+        catReverse = false;
+      } else {
+        myHaxis = "Cost";
+        myVaxis = "Year";
+        catReverse = true;
+      }
+   
+      var queryText = encodeURIComponent(qry);
+      
+      console.log(speedSel);
+
+      google.visualization.drawChart({
+        "containerId": "visualization_div",
+        "dataSourceUrl": 'http://www.google.com/fusiontables/gvizdata?tq=',
+        "query":qry,
+        "refreshInterval": 20,
+        "chartType": chartType,
+        "options": {
+          "title":myTitle,
+          "hAxis": {"title": myHaxis, format: '$###,###,###.##'},
+          "vAxis": {"title": myVaxis, format: '$###,###,###.##'},
+          reverseCategories:catReverse
+        }
+      });
+    }
+
+    google.setOnLoadCallback(drawVisualization);
+  </script>
+</head>
+<body style="font-family: Arial;border: 0 none;">
+  <h3 style="text-align:center">NASA Wind Tunnel Testing Facility Costs, by Wind Speed</h3>
+  <table border="1" style="margin-left:auto;margin-right:auto">
+    <caption>Select Chart Options</caption>
+    <tr style="text-align:center"><td><h4>Speed:</h4></td>
+      <td><h4>Chart Type:</h4></td>
+      <td><h4>Users:</h4></td>
+      </tr>
+      <tr><td>
+      <select id="speed" onchange="makeSelection(this)">
+        <option value="All">All</option>
+        <option value="Subsonic">Subsonic</option>
+        <option value="Transonic">Transonic</option>
+        <option value="Supersonic">Supersonic</option>
+        <option value="Hypersonic">Hypersonic</option>
+        <option value="Propulsion">Propulsion</option>
+      </select></td>
+      <td>
+      <select id="chart_type" onchange="selectChart(this)">
+        <option value="LineChart">Line Chart</option>
+        <option value="AreaChart">Area Chart</option>
+        <option value="ColumnChart">Column Chart</option>
+        <option value="BarChart">Bar Chart</option>
+        <option value="PieChart">Pie Chart</option>
+      </select></td>
+      <td>
+      <select id="users" onchange="selectUsers(this)">
+        <option value="series">Show as Series</option>
+        <option value="all">Sum All</option>
+      </select></td>
+      </tr>
+    </table>
+  <div id="visualization_div" style="width: 1000px; height: 500px; margin-left:auto; margin-right:auto"></div>
+</body>
+</html>

@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  div(style='text-align: center; font-size: larger')
+  div(style='text-align: center')
     h1= title
     p Welcome to #{title}, the NASA Wind Tunnel Usage Data Visualization!
     ul#Charts

@@ -1,0 +1,139 @@
+<html>
+  <title>Costs by Location</title>
+  <head>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      
+      var chartType = 'LineChart';
+      var locSel = 'All';
+      var showUsers = 'series';
+    
+      function makeSelection(sel) {
+        var idx = sel.selectedIndex;
+        var which = sel.options[idx].value;
+        
+        locSel = which;
+        drawVisualization();
+      }
+    
+      function selectChart(chart) {
+        var idx = chart.selectedIndex;
+        var which = chart.options[idx].value;
+        
+        chartType = which;
+        
+        if (chartType == 'PieChart') {
+          window.location = 'chart2.html';  // go to separate page for pie charts
+        }
+        
+        drawVisualization();
+      }
+    
+      function selectUsers(sel) {
+        var idx = sel.selectedIndex;
+        var which = sel.options[idx].value;
+        
+        console.log(which); // to debug
+        
+        showUsers = which;
+        drawVisualization();
+      }
+      
+      function drawVisualization() {
+        var myTitle = "";
+        var myHaxis = "";
+        var myVaxis = "";
+        var qry = "";
+        var catReverse = false; // reverse categories or not (do so for bar charts)
+        
+        if (locSel == 'All') {
+          if (showUsers == 'series') {
+            qry = "SELECT Year, SUM('NASA') AS 'NASA', SUM('DoD') AS 'DoD', SUM('Commercial') AS 'Commercial' FROM 1MJBD0w5d3au0USq3z10qPfIzQ9ri0r-4m2gz5XY GROUP BY Year"
+            myTitle = "Yearly Wind Tunnel Costs by User"
+          } else {
+            qry = "SELECT Year, SUM('Cost') AS 'Cost' FROM 1rl35eu2FndFYWAhcLZiOB0ZAMbIMSy_bWjBaIpE GROUP BY Year"
+            myTitle = "Yearly Wind Tunnel Costs"
+          }
+        } else {
+          if (showUsers == 'series') {
+            qry = "SELECT Year, 'NASA', 'DoD', 'Commercial' FROM 1MJBD0w5d3au0USq3z10qPfIzQ9ri0r-4m2gz5XY WHERE 'Location'='" + locSel + "'"
+            myTitle = "Yearly " + locSel + " Wind Tunnel Costs by User"
+          } else {
+            qry = "SELECT Year, SUM('Cost') As 'Cost' FROM 1rl35eu2FndFYWAhcLZiOB0ZAMbIMSy_bWjBaIpE WHERE 'Location'='" + locSel + "' GROUP BY Year"
+            myTitle = "Yearly " + locSel + " Wind Tunnel Costs"
+          }
+        }
+        
+        if (chartType != 'BarChart') {
+          myHaxis = "Year";
+          myVaxis = "Cost";
+          catReverse = false;
+        } else {
+          myHaxis = "Cost";
+          myVaxis = "Year";
+          catReverse = true;
+        }
+
+        var queryText = encodeURIComponent(qry);
+
+        google.visualization.drawChart({
+          "containerId": "visualization_div",
+          "dataSourceUrl": 'http://www.google.com/fusiontables/gvizdata?tq=',
+          "query":qry,
+          "refreshInterval": 20,
+          "chartType": chartType,
+          "options": {
+            "title":myTitle,
+            "hAxis": {"title": myHaxis, format: '$###,###,###.##'},
+            "vAxis": {"title": myVaxis, format: '$###,###,###.##'},
+            reverseCategories:catReverse
+          }
+        });
+      }
+      
+    google.setOnLoadCallback(drawVisualization);
+  </script>
+</head>
+<body style="font-family: Arial;border: 0 none;text-align:center">
+  <h3>NASA Wind Tunnel Testing Facility Costs, by Location</h3>
+  <table border="1" style="margin-left:auto;margin-right:auto">
+    <caption>Select Chart Options</caption>
+    <tr><td><h4>Location:</h4></td>
+      <td><h4>Chart Type:</h4></td>
+      <td><h4>Users:</h4></td>
+      </tr>
+      <tr><td>
+      <select id="location" onchange="makeSelection(this)">
+        <option value="All">All</option>
+        <option value="ARC Unitary">ARC Unitary</option>
+        <option value="GRC 10x10">GRC 10x10</option>
+        <option value="GRC 9x15/8x6">GRC 9x15/8x6</option>
+        <option value="GRC IRT">GRC IRT</option>
+        <option value="GRC PSL">GRC PSL</option>
+        <option value="LaRC 14x22">LaRC 14x22</option>
+        <option value="LaRC 20-Ft VST">LaRC 20-Ft VST</option>
+        <option value="LaRC 8-Ft HTT">LaRC 8-Ft HTT</option>
+        <option value="LaRC LAL">LaRC LAL</option>
+        <option value="LaRC NTF">LaRC NTF</option>
+        <option value="LaRC TDT">LaRC TDT</option>
+        <option value="LaRC UPWT">LaRC UPWT</option>
+      </select></td>
+      <td>
+      <select id="chart_type" onchange="selectChart(this)">
+        <option value="LineChart">Line Chart</option>
+        <option value="AreaChart">Area Chart</option>
+        <option value="ColumnChart">Column Chart</option>
+        <option value="BarChart">Bar Chart</option>
+        <option value="PieChart">Pie Chart</option>
+      </select></td>
+      <td>
+      <select id="users" onchange="selectUsers(this)">
+        <option value="series">Show as Series</option>
+        <option value="all">Sum All</option>
+      </select></td>
+      </tr>
+    </table>
+  <div id="visualization_div" style="width: 1000px; height: 500px; margin-left:auto; margin-right:auto"></div>
+</body>
+</html>
