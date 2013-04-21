@@ -57,10 +57,6 @@
         
         chartType = which;
         
-        if (chartType == 'PieChart') {
-          window.location = 'chart2.html';  // go to separate page for pie charts
-        }
-        
         drawVisualization();
       }
     
@@ -180,7 +176,6 @@
         <option value="AreaChart">Area Chart</option>
         <option value="ColumnChart">Column Chart</option>
         <option value="BarChart">Bar Chart</option>
-        <option value="PieChart">Pie Chart</option>
       </select></td>
       <td>
       <select id="users" onchange="selectUsers(this)">
