@@ -9,7 +9,6 @@
       var locSel = 'All'; // location (wind tunnel)
       var locCatSel = 'All'; // location category (facility)
       var showUsers = 'series'; // NASA, DoD, or commercial user
-      
       var dontDraw = false; // flag to indicate if selection made programatically
       
       function selectLocCat(sel) {
@@ -17,8 +16,6 @@
         var which = sel.options[idx].value;
         
         locCatSel = which;
-        
-        console.log(locCatSel);
         
         // filter by either facility or location (but not both)
         if (locCatSel != 'All') {
@@ -54,8 +51,6 @@
         }
       }
         
-       
-    
       function selectChart(chart) {
         var idx = chart.selectedIndex;
         var which = chart.options[idx].value;
