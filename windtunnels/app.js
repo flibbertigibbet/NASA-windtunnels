@@ -9,6 +9,7 @@ var express = require('express')
   , http = require('http')
   , path = require('path')
   , chart = require('./routes/chart')
+  , costbyspeed = require('./routes/costbyspeed')
   , chart2 = require('./routes/chart2')
   , bar = require('./routes/bar');
 
@@ -34,6 +35,9 @@ app.get('/', routes.index);
 app.get('/users', user.list);
 app.get('/chart', function(req, res) {
   res.sendfile(__dirname + '/public/chart.html');
+});
+app.get('/costbyspeed', function(req, res) {
+  res.sendfile(__dirname + '/public/costbyspeed.html');
 });
 app.get('/chart2', function(req, res) {
   res.sendfile(__dirname + '/public/chart2.html');

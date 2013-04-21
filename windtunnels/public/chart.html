@@ -1,4 +1,5 @@
 <html>
+  <title>Costs by Wind Speed</title>
   <head>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript">
@@ -63,7 +64,7 @@
     }
     
     function drawVisualization() {
-      var myTitle = "Yearly Wind Tunnel Costs by User";
+      var myTitle = "";
       var myHaxis = "";
       var myVaxis = "";
       var qry = "";
@@ -72,10 +73,10 @@
       if (speedSel == 'All') {
         if (showUsers == 'series') {
           qry = "SELECT Year, SUM('NASA') AS 'NASA', SUM('DoD') AS 'DoD', SUM('Commercial') AS 'Commercial' FROM 1pkq1u6yBAbJ2Tt_qKrhUb9rHMIIcs506noF2sEg GROUP BY Year"
-          myTile = "Yearly Wind Tunnel Costs by User"
+          myTitle = "Yearly Wind Tunnel Costs by User"
         } else {
           qry = "SELECT Year, SUM('Cost') AS 'Cost' FROM 1nE8JH46KFYlgNNxJYUOoglR6r2Y0ThotRBIRfug GROUP BY Year"
-          myTile = "Yearly Wind Tunnel Costs"
+          myTitle = "Yearly Wind Tunnel Costs"
         }
       } else {
         if (showUsers == 'series') {
@@ -120,9 +121,10 @@
   </script>
 </head>
 <body style="font-family: Arial;border: 0 none;">
-  <br /><table border="1" style="margin-left:auto;margin-right:auto">
+  <h3 style="text-align:center">NASA Wind Tunnel Testing Facility Costs, by Wind Speed</h3>
+  <table border="1" style="margin-left:auto;margin-right:auto">
     <caption>Select Chart Options</caption>
-    <tr><td><h4>Speed:</h4></td>
+    <tr style="text-align:center"><td><h4>Speed:</h4></td>
       <td><h4>Chart Type:</h4></td>
       <td><h4>Users:</h4></td>
       </tr>
