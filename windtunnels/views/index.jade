@@ -1,20 +1,21 @@
 extends layout
 
 block content
-  div(style='text-align: left; font-size: larger; width: 1000px; height: 500px; margin-left:auto; margin-right:auto; position:relative')
-    h1(style='text-align:center; margin-top: 10px; margin-bottom: 10px')= title
-    h3(style='margin-top: 10px; margin-bottom: 10px') Welcome to #{title}, the NASA Wind Tunnel Usage Data Visualization!
-
+  div#container
+    div#header
+        h1(style='text-align:center; margin-top: 10px; margin-bottom: 10px')= title
+    h2(style='margin-top: 10px; margin-bottom: 10px') Welcome to #{title}, the NASA Wind Tunnel Usage Data Visualization!
     p All data through 2013 is estimated.  Data provided by NASA as a part of the 2013 Space Apps Challenge.
-    p <a href="http://spaceappschallenge.org/" target="_blank">2013 Space Apps Challenge</a>
-    p <a href="http://spaceappschallenge.org/challenge/nasa-wind-tunnel-visualization" target="_blank">NASA Wind Tunnel Visualiation Challenge</a>
-    p <a href="http://spaceappschallenge.org/project/tunnel-vision" target="_blank">Team Tunnel Vision</a>
-
     ul#Charts
     li: a(href="/costbylocation") Costs by Location
     li: a(href="/costbyspeed") Costs by Wind Speed
     li: a(href="/hoursbylocation") User Hours by Location
     li: a(href="/hoursbyspeed") User Hours by Wind Speed
+    div#footer
+        <a href="http://spaceappschallenge.org/" target="_blank">2013 Space Apps Challenge</a> | 
+        <a href="http://spaceappschallenge.org/challenge/nasa-wind-tunnel-visualization" target="_blank">NASA Wind Tunnel Visualiation Challenge</a> | 
+        <a href="http://spaceappschallenge.org/project/tunnel-vision" target="_blank">Team Tunnel Vision</a>
     
   a(href='https://github.com/flibbertigibbet/NASA-windtunnels')
     img(style='position: absolute; top: 0; right: 0; border: 0;', src='https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png', alt='Fork me on GitHub')
+
