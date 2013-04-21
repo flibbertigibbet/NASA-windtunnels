@@ -3,17 +3,23 @@ Google Fusion table locations:
 ATP by location, user
 https://www.google.com/fusiontables/DataSource?docid=1T8zOrOm79lND_Ebc-dKHa1-94DWu95BLw71CRCo
 
+ATP by location, user, partially normal
+https://www.google.com/fusiontables/DataSource?docid=1cg2qQJLDyuutklVzabwV4jXnnA83pelReqY0SNs
+
 ATP by NASA group
 https://www.google.com/fusiontables/DataSource?docid=1zfpCaGtzDgIl1NTyxpcJ21XUEIBi4Gr4eUnFtFo
 
 ATP by speed, user
 https://www.google.com/fusiontables/DataSource?docid=1A-XBHpAayWm72ewcBWN0KZyuLz4D5sNfPGK_KNY
 
+ATP by speed, partially normal
+https://www.google.com/fusiontables/DataSource?docid=1TkRg-R0t9kDrDnYcl7ESvv8Fc2aIz5xKFrEzJTU
+
 budget by location
 https://www.google.com/fusiontables/DataSource?docid=1rl35eu2FndFYWAhcLZiOB0ZAMbIMSy_bWjBaIpE
 
 budget by location, partially normal
-https://www.google.com/fusiontables/DataSource?docid=1Ed2y898rO5VwDN0j_k2fTkO97w3A8d8YAoBX8EU
+https://www.google.com/fusiontables/DataSource?docid=1MJBD0w5d3au0USq3z10qPfIzQ9ri0r-4m2gz5XY
 
 budget by speed
 https://www.google.com/fusiontables/DataSource?docid=1nE8JH46KFYlgNNxJYUOoglR6r2Y0ThotRBIRfug
@@ -21,5 +27,3 @@ https://www.google.com/fusiontables/DataSource?docid=1nE8JH46KFYlgNNxJYUOoglR6r2
 budget by speed, patially normal
 https://www.google.com/fusiontables/DataSource?docid=1pkq1u6yBAbJ2Tt_qKrhUb9rHMIIcs506noF2sEg
 
-ATP by location, user, partially normal
-https://www.google.com/fusiontables/DataSource?docid=1cg2qQJLDyuutklVzabwV4jXnnA83pelReqY0SNs
