@@ -6,8 +6,11 @@ https://www.google.com/fusiontables/DataSource?docid=1T8zOrOm79lND_Ebc-dKHa1-94D
 ATP by location, user, partially normal
 https://www.google.com/fusiontables/DataSource?docid=1cg2qQJLDyuutklVzabwV4jXnnA83pelReqY0SNs
 
-ATP by NASA group
+ATP by NASA group, normal
 https://www.google.com/fusiontables/DataSource?docid=1zfpCaGtzDgIl1NTyxpcJ21XUEIBi4Gr4eUnFtFo
+
+ATP by NASA group, non-normal
+https://www.google.com/fusiontables/DataSource?docid=1vHKP5ooapm8g9i2SDUplDmvKgiAIoqospiGsP84
 
 ATP by speed, user
 https://www.google.com/fusiontables/DataSource?docid=1A-XBHpAayWm72ewcBWN0KZyuLz4D5sNfPGK_KNY
