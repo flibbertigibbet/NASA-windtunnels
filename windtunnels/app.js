@@ -5,46 +5,33 @@
 
 var express = require('express')
   , routes = require('./routes')
+  , user = require('./routes/user')
+  , http = require('http')
+  , path = require('path')
   , chart = require('./routes/chart')
   , chart2 = require('./routes/chart2')
   , bar = require('./routes/bar');
 
-var app = module.exports = express.createServer();
+var app = express();
 
-// Configuration
+// all environments
+app.set('port', process.env.PORT || 3000);
+app.set('views', __dirname + '/views');
+app.set('view engine', 'jade');
+app.use(express.favicon());
+app.use(express.logger('dev'));
+app.use(express.bodyParser());
+app.use(express.methodOverride());
+app.use(app.router);
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.configure(function(){
-  app.set('views', __dirname + '/views');
-  app.set('view engine', 'jade');
-  app.use(express.bodyParser());
-  app.use(express.methodOverride());
-app.use(express.compiler({ src : __dirname + '/public', enable: ['less']}));
-  app.use(app.router);
-  app.use(express.static(__dirname + '/public'));
-});
-
-app.configure('development', function(){
-  app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
-});
-
-app.configure('production', function(){
+// development only
+if ('development' == app.get('env')) {
   app.use(express.errorHandler());
-});
-
-// Compatible
-
-// Now less files with @import 'whatever.less' will work(https://github.com/senchalabs/connect/pull/174)
-var TWITTER_BOOTSTRAP_PATH = './vendor/twitter/bootstrap/less';
-express.compiler.compilers.less.compile = function(str, fn){
-  try {
-    var less = require('less');var parser = new less.Parser({paths: [TWITTER_BOOTSTRAP_PATH]});
-    parser.parse(str, function(err, root){fn(err, root.toCSS());});
-  } catch (err) {fn(err);}
 }
 
-// Routes
-
 app.get('/', routes.index);
+app.get('/users', user.list);
 app.get('/chart', function(req, res) {
   res.sendfile(__dirname + '/public/chart.html');
 });
@@ -55,6 +42,6 @@ app.get('/bar', function(req, res) {
   res.sendfile(__dirname + '/public/bar.html');
 });
 
-app.listen(3000, function(){
-  console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
+http.createServer(app).listen(app.get('port'), function(){
+  console.log('Express server listening on port ' + app.get('port'));
 });
