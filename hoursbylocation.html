@@ -1,0 +1,198 @@
+<html>
+  <title>Hours by Location</title>
+  <link href="/stylesheets/style.css" rel="stylesheet" type="text/css" />
+  <head>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      
+      var chartType = 'LineChart';
+      var locSel = 'All';
+      var locCatSel = 'All'; // location category (facility)
+      var showUsers = 'series';
+      var dontDraw = false; // flag to indicate if selection made programatically
+    
+      function selectLocCat(sel) {
+        var idx = sel.selectedIndex;
+        var which = sel.options[idx].value;
+        
+        locCatSel = which;
+        
+        // filter by either facility or location (but not both)
+        if (locCatSel != 'All') {
+          dontDraw = true;
+          document.getElementById("location").value = 'All';
+          locSel = 'All';
+          drawVisualization();
+          dontDraw = false;
+        } else {
+          if (!dontDraw) {
+            drawVisualization();
+           }
+        }
+      }
+    
+      function selectLocation(sel) {
+        var idx = sel.selectedIndex;
+        var which = sel.options[idx].value;
+        
+        locSel = which;
+        
+        // filter by either facility or location (but not both)
+        if (locCatSel != 'All') {
+          dontDraw = true;
+          document.getElementById("location_category").value = 'All';
+          locCatSel = 'All';
+          drawVisualization();
+          dontDraw = false;
+        } else {
+          if (!dontDraw) {
+            drawVisualization();
+           }
+        }
+      }
+    
+      function selectChart(chart) {
+        var idx = chart.selectedIndex;
+        var which = chart.options[idx].value;
+        
+        chartType = which;
+        
+        drawVisualization();
+      }
+    
+      function selectUsers(sel) {
+        var idx = sel.selectedIndex;
+        var which = sel.options[idx].value;
+        
+        console.log(which); // to debug
+        
+        showUsers = which;
+        drawVisualization();
+      }
+      
+      function drawVisualization() {
+        var myTitle = "";
+        var myHaxis = "";
+        var myVaxis = "";
+        var qry = "";
+        var catReverse = false; // reverse categories or not (do so for bar charts)
+        
+        if (locSel == 'All') {
+          if (locCatSel == 'All') {
+          
+            if (showUsers == 'series') {
+              qry = "SELECT Year, SUM('NASA') AS 'NASA', SUM('DoD') AS 'DoD', SUM('Commercial') AS 'Commercial' FROM 1cg2qQJLDyuutklVzabwV4jXnnA83pelReqY0SNs GROUP BY Year"
+              myTitle = "Yearly Wind Tunnel Hours by User"
+            } else {
+              qry = "SELECT Year, SUM('Hours') AS 'Hours' FROM 1T8zOrOm79lND_Ebc-dKHa1-94DWu95BLw71CRCo GROUP BY Year"
+              myTitle = "Yearly Wind Tunnel Hours"
+            }
+            
+          } else {
+            // filter by location category
+            if (showUsers == 'series') {
+              qry = "SELECT Year, 'NASA', 'DoD', 'Commercial' FROM 1cg2qQJLDyuutklVzabwV4jXnnA83pelReqY0SNs WHERE 'LocationCategory'='" + locCatSel + "'"
+              myTitle = "Yearly " + locCatSel + " Wind Tunnel Hours by User"
+            } else {
+              qry = "SELECT Year, SUM('Hours') As 'Hours' FROM 1T8zOrOm79lND_Ebc-dKHa1-94DWu95BLw71CRCo WHERE 'LocationCategory'='" + locCatSel + "' GROUP BY Year"
+              myTitle = "Yearly " + locCatSel + " Wind Tunnel Hours"
+            }
+          }
+          
+        } else {
+          // filter by location
+          if (showUsers == 'series') {
+            qry = "SELECT Year, 'NASA', 'DoD', 'Commercial' FROM 1cg2qQJLDyuutklVzabwV4jXnnA83pelReqY0SNs WHERE 'Location'='" + locSel + "'"
+            myTitle = "Yearly " + locSel + " Wind Tunnel Hours by User"
+          } else {
+            qry = "SELECT Year, SUM('Hours') As 'Hours' FROM 1T8zOrOm79lND_Ebc-dKHa1-94DWu95BLw71CRCo WHERE 'Location'='" + locSel + "' GROUP BY Year"
+            myTitle = "Yearly " + locSel + " Wind Tunnel Hours"
+          }
+        }
+        
+        if (chartType != 'BarChart') {
+          myHaxis = "Year";
+          myVaxis = "Hours";
+          catReverse = false;
+        } else {
+          myHaxis = "Hours";
+          myVaxis = "Year";
+          catReverse = true;
+        }
+
+        var queryText = encodeURIComponent(qry);
+
+        google.visualization.drawChart({
+          "containerId": "visualization_div",
+          "dataSourceUrl": 'http://www.google.com/fusiontables/gvizdata?tq=',
+          "query":qry,
+          "refreshInterval": 20,
+          "chartType": chartType,
+          "options": {
+            "title":myTitle,
+            "hAxis": {"title": myHaxis},
+            "vAxis": {"title": myVaxis},
+            reverseCategories:catReverse
+          }
+        });
+      }
+      
+    google.setOnLoadCallback(drawVisualization);
+  </script>
+</head>
+<body style="font-family: Arial;border: 0 none;text-align:center">
+  <div id="container">
+    <div id="header">
+      <h2>NASA Wind Tunnel Testing Facility Hours, by Location</h2>
+    </div>
+    <a href=".">>>Back to menu</a>
+    <table border="1" style="margin-left:auto;margin-right:auto">
+      <caption>Select Chart Options</caption>
+      <tr style="text-align:center"><td><h4>Facility:</h4></td>
+        <td><h4>Location:</h4></td>
+        <td><h4>Chart Type:</h4></td>
+        <td><h4>Users:</h4></td>
+        </tr>
+        <tr><td><select id="location_category" onchange="selectLocCat(this)">
+            <option value="All">All</option>
+            <option value="ARC">Ames Research Center</option>
+            <option value="GRC">Glenn Research Center</option>
+            <option value="LaRC">Langley Research Center</option>
+          </select></td>
+        <td><select id="location" onchange="selectLocation(this)">
+          <option value="All">All</option>
+          <option value="ARC Unitary">ARC Unitary</option>
+          <option value="GRC 10x10">GRC 10x10</option>
+          <option value="GRC 9x15/8x6">GRC 9x15/8x6</option>
+          <option value="GRC IRT">GRC IRT</option>
+          <option value="GRC PSL">GRC PSL</option>
+          <option value="LaRC 14x22">LaRC 14x22</option>
+          <option value="LaRC 20-Ft VST">LaRC 20-Ft VST</option>
+          <option value="LaRC 8-Ft HTT">LaRC 8-Ft HTT</option>
+          <option value="LaRC LAL">LaRC LAL</option>
+          <option value="LaRC NTF">LaRC NTF</option>
+          <option value="LaRC TDT">LaRC TDT</option>
+          <option value="LaRC UPWT">LaRC UPWT</option>
+        </select></td>
+        <td>
+        <select id="chart_type" onchange="selectChart(this)">
+          <option value="LineChart">Line Chart</option>
+          <option value="AreaChart">Area Chart</option>
+          <option value="ColumnChart">Column Chart</option>
+          <option value="BarChart">Bar Chart</option>
+        </select></td>
+        <td>
+        <select id="users" onchange="selectUsers(this)">
+          <option value="series">Show as Series</option>
+          <option value="all">Sum All</option>
+        </select></td>
+        </tr>
+      </table>
+  <div id="visualization_div" style="width: 1000px; height: 500px; margin-left:auto; margin-right:auto"></div>
+  <div id="footer"><a href="http://spaceappschallenge.org/" target="_blank">2013 Space Apps Challenge</a> | 
+        <a href="http://spaceappschallenge.org/challenge/nasa-wind-tunnel-visualization" target="_blank">NASA Wind Tunnel Visualiation Challenge</a> | 
+        <a href="http://spaceappschallenge.org/project/tunnel-vision" target="_blank">Team Tunnel Vision</a>
+  </div>
+</body>
+</html>
