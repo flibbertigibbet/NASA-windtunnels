@@ -9,6 +9,7 @@
       var chartType = 'LineChart';
       var speedSel = 'All';
       var showUsers = 'series';
+	  var stackSeries = false; // show series as stacked or not--doesn't work with line chart
     
       function makeSelection(sel) {
         var idx = sel.selectedIndex;
@@ -23,6 +24,12 @@
         var which = chart.options[idx].value;
         
         chartType = which;
+		
+		// can't stack series if using a line chart or not showing series
+	    if ((stackSeries == 'true') && (showUsers == 'all' || chartType == 'LineChart')) {
+		  document.getElementById("stack").value = 'false';
+		  stackSeries = false;
+	    }
         
       drawVisualization();
     }
@@ -32,8 +39,30 @@
       var which = sel.options[idx].value;
       
       showUsers = which;
+	  
+	  // can't stack series if using a line chart or not showing series
+	  if ((stackSeries == 'true') && (showUsers == 'all' || chartType == 'LineChart')) {
+		document.getElementById("stack").value = 'false';
+		stackSeries = false;
+	  }
+		
       drawVisualization();
     }
+	
+	function selectStacked(sel) {
+	  var idx = sel.selectedIndex;
+	  var which = sel.options[idx].value;
+	
+	  stackSeries = which;
+		
+	  // can't stack series if using a line chart or not showing series
+	  if ((stackSeries == 'true') && (showUsers == 'all' || chartType == 'LineChart')) {
+	    document.getElementById("stack").value = 'false';
+		stackSeries = false;
+		return;
+	  }
+	  drawVisualization();
+	}
     
     function drawVisualization() {
       var myTitle = "";
@@ -82,7 +111,8 @@
           "title":myTitle,
           "hAxis": {"title": myHaxis, format: '$###,###,###.##'},
           "vAxis": {"title": myVaxis, format: '$###,###,###.##'},
-          reverseCategories:catReverse
+          reverseCategories:catReverse,
+		  "isStacked":stackSeries
         }
       });
     }
@@ -102,6 +132,7 @@
       <tr style="text-align:center"><td><h4>Speed:</h4></td>
         <td><h4>Chart Type:</h4></td>
         <td><h4>Users:</h4></td>
+		<td><h4>Stack Series?</h4></td>
         </tr>
         <tr><td>
         <select id="speed" onchange="makeSelection(this)">
@@ -124,6 +155,11 @@
           <option value="series">Show as Series</option>
           <option value="all">Sum All</option>
         </select></td>
+		<td>
+		<select id="stack" onchange="selectStacked(this)">
+		  <option value="true">Yes</option>
+		  <option value="false" selected>No</option>
+		</select></td>
         </tr>
       </table>
   <div id="visualization_div" style="width: 1000px; height: 500px; margin-left:auto; margin-right:auto"></div>
