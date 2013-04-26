@@ -1,5 +1,5 @@
 <html>
-  <title>Hours by Location</title>
+  <title>NASA Group Hours by Location</title>
   <head>
     <link href="/stylesheets/style.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
@@ -119,7 +119,7 @@
           } else {
             // filter by location category
             if (showUsers == 'series') {
-              qry = "SELECT Year, 'ARMD' AS 'ARMD FundAero', 'ESMD' AS 'ESMD CEV', 'SMD' AS 'SMD', 'SOMD' AS 'SOMD Commercial' FROM 1vHKP5ooapm8g9i2SDUplDmvKgiAIoqospiGsP84 WHERE 'LocationCategory'='" + locCatSel + "'"
+              qry = "SELECT Year, SUM('ARMD') AS 'ARMD FundAero', SUM('ESMD') AS 'ESMD CEV', SUM('SMD') AS 'SMD', SUM('SOMD') AS 'SOMD Commercial' FROM 1vHKP5ooapm8g9i2SDUplDmvKgiAIoqospiGsP84 WHERE 'LocationCategory'='" + locCatSel + "' GROUP BY Year"
               myTitle = "Yearly " + locCatSel + " Wind Tunnel Hours by NASA Group"
             } else {
               qry = "SELECT Year, SUM('Hours') As 'Hours' FROM 1zfpCaGtzDgIl1NTyxpcJ21XUEIBi4Gr4eUnFtFo WHERE 'LocationCategory'='" + locCatSel + "' GROUP BY Year"

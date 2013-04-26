@@ -120,7 +120,7 @@
           } else {
             // filter by location category
             if (showUsers == 'series') {
-              qry = "SELECT Year, 'NASA', 'DoD', 'Commercial' FROM 1wTJATnQr-n_HwNwRJVrc7oYrFthq1zqyuCZsCOU WHERE 'LocationCategory'='" + locCatSel + "'"
+              qry = "SELECT Year, SUM('NASA') As 'NASA', SUM('DoD') As 'DoD', SUM('Commercial') As 'Commercial' FROM 1wTJATnQr-n_HwNwRJVrc7oYrFthq1zqyuCZsCOU WHERE 'LocationCategory'='" + locCatSel + "' GROUP BY Year"
               myTitle = "Yearly " + locCatSel + " Wind Tunnel Costs by User"
             } else {
               qry = "SELECT Year, SUM('Cost') As 'Cost' FROM 1rl35eu2FndFYWAhcLZiOB0ZAMbIMSy_bWjBaIpE WHERE 'LocationCategory'='" + locCatSel + "' GROUP BY Year"
